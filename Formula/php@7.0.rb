@@ -1,8 +1,15 @@
 class PhpAT70 < Formula
   desc "General-purpose scripting language"
   homepage "https://secure.php.net/"
-  url "https://www.php.net/distributions/php-7.0.33.tar.gz"
-  sha256 "d71a6ecb6b13dc53fed7532a7f8f949c4044806f067502f8fb6f9facbb40452a"
+  url "https://php.net/get/php-7.0.32.tar.xz/from/this/mirror"
+  sha256 "ff6f62afeb32c71b3b89ecbd42950ef6c5e0c329cc6e1c58ffac47e6f1f883c4"
+  revision 2
+
+  bottle do
+    sha256 "690f494debe1a4c0959f9d8ad2e994b805e5ccf599facf7ef6389e49e20a0083" => :mojave
+    sha256 "c78c6fdf10de0b2c0cf3d513d74248676d421e3a00306cd18db2174bd82058b1" => :high_sierra
+    sha256 "9f3b8dd88c1dc6bbcd1de60bbaadccd5d28a73043c115a49f9f3e742c647ab83" => :sierra
+  end
 
   keg_only :versioned_formula
 
@@ -32,6 +39,12 @@ class PhpAT70 < Formula
   depends_on "tidy-html5"
   depends_on "unixodbc"
   depends_on "webp"
+
+  # PHP build system incorrectly links system libraries
+  # see https://github.com/php/php-src/pull/3472
+  patch :DATA
+
+  needs :cxx11
 
   def install
     # Ensure that libxml2 will be detected correctly in older MacOS
@@ -257,11 +270,14 @@ class PhpAT70 < Formula
     <<~EOS
       To enable PHP in Apache add the following to httpd.conf and restart Apache:
           LoadModule php7_module #{opt_lib}/httpd/modules/libphp7.so
+
           <FilesMatch \\.php$>
               SetHandler application/x-httpd-php
           </FilesMatch>
+
       Finally, check DirectoryIndex includes index.php
           DirectoryIndex index.php index.html
+
       The php.ini and php-fpm.ini file can be found in:
           #{etc}/php/#{php_version}/
     EOS
@@ -458,6 +474,7 @@ index 168c465f8d..6c087d152f 100644
  dnl internal, don't use
 @@ -2411,7 +2419,8 @@ AC_DEFUN([PHP_SETUP_ICONV], [
      fi
+
      if test -f $ICONV_DIR/$PHP_LIBDIR/lib$iconv_lib_name.a ||
 -       test -f $ICONV_DIR/$PHP_LIBDIR/lib$iconv_lib_name.$SHLIB_SUFFIX_NAME
 +       test -f $ICONV_DIR/$PHP_LIBDIR/lib$iconv_lib_name.$SHLIB_SUFFIX_NAME ||
