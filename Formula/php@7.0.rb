@@ -7,6 +7,10 @@ class PhpAT70 < Formula
 
   keg_only :versioned_formula
 
+  bottle do
+    sha256 "d4c4c219efa49910b66561e0eaad7dbcbef6a94e98216e27c52e51e5a851d766" => :catalina
+  end
+  
   depends_on "httpd" => [:build, :test]
   depends_on "pkg-config" => :build
   depends_on "apr"
