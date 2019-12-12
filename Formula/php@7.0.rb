@@ -1,8 +1,8 @@
 class PhpAT70 < Formula
   desc "General-purpose scripting language"
   homepage "https://secure.php.net/"
-  url "https://php.net/get/php-7.0.33.tar.xz/from/this/mirror"
-  sha256 "ab8c5be6e32b1f8d032909dedaaaa4bbb1a209e519abb01a52ce3914f9a13d96"
+  url "https://www.php.net/distributions/php-7.0.33.tar.gz"
+  sha256 "d71a6ecb6b13dc53fed7532a7f8f949c4044806f067502f8fb6f9facbb40452a"
 
   keg_only :versioned_formula
 
